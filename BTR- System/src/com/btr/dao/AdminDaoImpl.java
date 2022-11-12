@@ -61,6 +61,7 @@ public class AdminDaoImpl implements AdminDao {
 			ps.setString(2, destination);
 
 			ResultSet rs = ps.executeQuery();
+//			System.out.println(rs);
 			try {
 
 				int count = 0;
@@ -76,8 +77,8 @@ public class AdminDaoImpl implements AdminDao {
 
 					LocalDateTime departureTime = timestamp1.toLocalDateTime();
 
-					BusDto busDTO = new BusDto(rs.getString("name"), rs.getString("route"), rs.getString("type"),
-							rs.getInt("availableSeats"), arrivalTime, departureTime);
+					BusDto busDTO = new BusDto(rs.getString("name"), rs.getString("routeFrom"),rs.getString("btype"),
+							rs.getInt("availSeats"), arrivalTime, departureTime);
 					ls.add(busDTO);
 
 				}

@@ -20,8 +20,8 @@ public class GetAllDetails {
 		AdminDao adminDao = new AdminDaoImpl();
 		try {
 			List<BusDto> busList = adminDao.getBusesAllDetails(source, destination);
-			System.out.println("Buses");
-			System.out.println("=====");
+			System.out.println("All Buses");
+			System.out.println("**************************************************************");
 			System.out.println();
 			for (BusDto i : busList) {
 				System.out.println("Name -> " + i.getName() + " , type -> " + i.getType() + " , route -> "
