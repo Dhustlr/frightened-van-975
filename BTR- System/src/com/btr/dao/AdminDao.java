@@ -1,18 +1,19 @@
 package com.btr.dao;
 
+import java.util.List;
+
+import com.btr.exceptions.BusEx;
+import com.btr.exceptions.CustomerEX;
 import com.btr.model.Bus;
+import com.btr.model.BusDto;
+import com.btr.model.Customer;
 
 public interface AdminDao {
 
-	public final String userid = "Admin";
-	public final String pass = "0000";
 
-	public String Alogin(String userid, String pass);
+	public Customer Alogin(String username, String password) throws CustomerEX;
 
-	public String addBus(Bus bus);
+	public List<BusDto> getBusesAllDetails(String source, String destination) throws BusEx;
 
-	public String updatestatus(int cid);
-
-	public void viewTickets();
 
 }

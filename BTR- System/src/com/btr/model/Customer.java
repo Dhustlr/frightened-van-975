@@ -2,35 +2,25 @@ package com.btr.model;
 
 public class Customer {
 
-	private int cusId;
-	private String username;
-	private String pass;
 	private String name;
+	private String email;
+	private String password;
+	private String userType; // it can be user or customer or it can be driver also
+	private String phone;
 	private String address;
-	private String mobile;
 
-	public int getCusId() {
-		return cusId;
+	public Customer() {
+
 	}
 
-	public void setCusId(int cusId) {
-		this.cusId = cusId;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPass() {
-		return pass;
-	}
-
-	public void setPass(String pass) {
-		this.pass = pass;
+	public Customer(String name, String email, String password, String userType, String phone, String address) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.userType = userType;
+		this.phone = phone;
+		this.address = address;
 	}
 
 	public String getName() {
@@ -41,6 +31,38 @@ public class Customer {
 		this.name = name;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -49,33 +71,10 @@ public class Customer {
 		this.address = address;
 	}
 
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public Customer(int cusId, String username, String pass, String name, String address, String mobile) {
-		super();
-		this.cusId = cusId;
-		this.username = username;
-		this.pass = pass;
-		this.name = name;
-		this.address = address;
-		this.mobile = mobile;
-	}
-
-	public Customer() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public String toString() {
-		return "Customer [cusId=" + cusId + ", username=" + username + ", pass=" + pass + ", name=" + name
-				+ ", address=" + address + ", mobile=" + mobile + "]";
+		return "User [name=" + name + ", email=" + email + ", password=" + password + ", userType=" + userType
+				+ ", phone=" + phone + ", address=" + address + "]";
 	}
 
 }

@@ -1,18 +1,13 @@
 package com.btr.exceptions;
 
-public class BusEx extends Exception{
+public class BusEx extends Exception {
 	
 	public BusEx() {
-		
-		
+		// TODO Auto-generated constructor stub
 	}
-	
-	public BusEx (String str ) {
-		
-		super(str);
-		
-	}
-	
-	
 
+	public BusEx(String msg) {
+
+		super(msg);
+	}
 }

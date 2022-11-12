@@ -1,117 +1,100 @@
 package com.btr.dao;
 
+import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.btr.exceptions.BusEx;
+import com.btr.exceptions.CustomerEX;
 import com.btr.model.Bus;
+import com.btr.model.BusDto;
+import com.btr.model.Customer;
 import com.btr.utility.DBUtil;
 
 public class AdminDaoImpl implements AdminDao {
 
 	@Override
-	public String Alogin(String userid, String pass) {
+	public Customer Alogin(String username, String password) throws CustomerEX {
 
-		String msg = "Invalid user";
+		Customer c = null;
 
-		if (userid.equals(AdminDao.userid) && pass.equals(AdminDao.pass))
-			msg = "Login Successful";
+		try (Connection conn = DBUtil.getConnetion()) {
 
-		return msg;
+			PreparedStatement ps = conn.prepareStatement("select * from customer where email = ? AND password = ?");
 
-	}
-
-	@Override
-	public String addBus(Bus bus) {
-
-		String msg = "Bus adding fail";
-
-		try (Connection con = DBUtil.getConnetion()) {
-
-			PreparedStatement ps = con.prepareStatement("insert into bus values(?,?,?,?,?,?,?,?,?,?)");
-
-			ps.setInt(1, bus.getbNo());
-			ps.setString(2, bus.getbName());
-			ps.setString(3, bus.getRouteFrom());
-			ps.setString(4, bus.getRouteTo());
-			ps.setString(5, bus.getbType());
-			ps.setString(6, bus.getArrival());
-			ps.setString(7, bus.getDeparture());
-			ps.setInt(8,bus.getTotalSeats());
-			ps.setInt(9, bus.getAvailSeats());
-			ps.setInt(10, bus.getFares());	
-			
-			
-			int i = ps.executeUpdate();
-			
-			if (i > 0)
-				msg = "Bus added successfully";
-
-		} catch (SQLException e) {
-			// TODO: handle exception
-			msg = e.getMessage();
-
-		}
-
-		return msg;
-	}
-
-	@Override
-	public String updatestatus(int cid) {
-
-		String msg = "Status Not changed";
-
-		try (Connection con = DBUtil.getConnetion()) {
-
-			PreparedStatement ps = con.prepareStatement("update booking set status like true where cusId = ?");
-
-			int i = ps.executeUpdate();
-
-			if (i > 0)
-				msg = "Status updated";
-
-		} catch (SQLException e) {
-			// TODO: handle exception
-			msg = e.getMessage();
-
-		}
-
-		return msg;
-	}
-
-	@Override
-	public void viewTickets() {
-
-		boolean flag = false;
-		try (Connection con = DBUtil.getConnetion()) {
-
-			PreparedStatement ps = con.prepareStatement("select * from booking");
+			ps.setString(1, username);
+			ps.setString(2, password);
 
 			ResultSet rs = ps.executeQuery();
 
-			while (rs.next()) {
-				flag = true;
+			if (rs.next()) {
+				String name = rs.getString("name");
+				c = new Customer();
+				c.setName(name);
 
-				System.out.println(rs.getInt("bid"));
-				System.out.println(rs.getInt("cusid"));
-				System.out.println(rs.getInt("busNo"));
-				System.out.println(rs.getInt("seatFrom"));
-				System.out.println(rs.getInt("seatTo"));
-				System.out.println(rs.getInt("status"));
-
-			}
-
-			if (flag == false)
-				System.out.println("No Tickets");
+			} else
+				throw new CustomerEX("Not valid input");
 
 		} catch (SQLException e) {
-			// TODO: handle exception
-
-			System.out.println(e.getMessage());
-
+			throw new CustomerEX(e.getMessage());
 		}
 
+		return c;
+	}
+
+	@Override
+	public List<BusDto> getBusesAllDetails(String source, String destination) throws BusEx {
+		// TODO Auto-generated method stub
+
+		List<BusDto> ls = new ArrayList<>();
+
+		try (Connection conn = DBUtil.getConnetion()) {
+
+			PreparedStatement ps = conn.prepareStatement("select * from bus where routeFrom = ? AND routeTo = ?");
+
+			ps.setString(1, source);
+			ps.setString(2, destination);
+
+			ResultSet rs = ps.executeQuery();
+			try {
+
+				int count = 0;
+
+				while (rs.next()) {
+					count++;
+
+					Timestamp timestamp = rs.getTimestamp("arrival");
+
+					LocalDateTime arrivalTime = timestamp.toLocalDateTime();
+
+					Timestamp timestamp1 = rs.getTimestamp("departure");
+
+					LocalDateTime departureTime = timestamp1.toLocalDateTime();
+
+					BusDto busDTO = new BusDto(rs.getString("name"), rs.getString("route"), rs.getString("type"),
+							rs.getInt("availableSeats"), arrivalTime, departureTime);
+					ls.add(busDTO);
+
+				}
+				if (count == 0) {
+					throw new BusEx("No buses available ");
+				}
+
+			} catch (BusEx e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} catch (SQLException e) {
+			throw new BusEx(e.getMessage());
+		}
+
+		return ls;
 	}
 
 }
