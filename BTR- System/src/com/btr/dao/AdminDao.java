@@ -10,7 +10,8 @@ import com.btr.model.Customer;
 
 public interface AdminDao {
 
-
+ 
+	
 	public Customer Alogin(String username, String password) throws CustomerEX;
 
 	public List<BusDto> getBusesAllDetails(String source, String destination) throws BusEx;

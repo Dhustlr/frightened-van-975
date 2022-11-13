@@ -52,7 +52,7 @@ public class CustomerDaoImpl implements CustomerDao {
 				throw new BusEx("Write valid bus number");
 
 		} catch (SQLException e) {
-			throw new BusEx(e.getMessage());
+			e.printStackTrace();
 		}
 
 		return d;
@@ -87,7 +87,7 @@ public class CustomerDaoImpl implements CustomerDao {
 				throw new BusEx("Enter valid bus number");
 
 		} catch (SQLException e) {
-			throw new BusEx(e.getMessage());
+			e.printStackTrace();
 		}
 
 

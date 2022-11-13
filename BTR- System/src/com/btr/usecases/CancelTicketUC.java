@@ -10,10 +10,9 @@ import com.btr.exceptions.BusEx;
 
 public class CancelTicketUC {
 
-	//MH14GJ4085
-			//2022-11-10 10:30:00
+
 	
-	public static void main(String[] args) throws BusEx {
+	public static void cancel() throws BusEx {
 		
 		Scanner sc = new Scanner(System.in);
 		

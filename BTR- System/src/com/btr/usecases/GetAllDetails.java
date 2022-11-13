@@ -10,7 +10,7 @@ import com.btr.model.BusDto;
 
 public class GetAllDetails {
 
-	public static void main(String[] args) {
+	public static void details() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter source");
 		String source = sc.nextLine();
